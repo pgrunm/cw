@@ -17,6 +17,12 @@ func TestWeekFunction(t *testing.T) {
 			week: 52,
 			year: 2024,
 		},
+		{
+			desc: "Check week of 1.7.2025",
+			t:    time.Date(2025, 7, 1, 0, 0, 0, 0, time.UTC),
+			week: 26,
+			year: 2025,
+		},
 	}
 	for _, tC := range testCases {
 		t.Run(tC.desc, func(t *testing.T) {
