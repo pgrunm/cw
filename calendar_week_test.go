@@ -33,3 +33,24 @@ func TestWeekFunction(t *testing.T) {
 		})
 	}
 }
+
+func TestLastMonday(t *testing.T) {
+	testCases := []struct {
+		desc        string
+		t, expected time.Time
+	}{
+		{
+			desc:     "Get last Monay for current date",
+			t:        time.Date(2025, 1, 31, 12, 30, 0, 0, time.UTC),
+			expected: time.Date(2025, 1, 27, 12, 30, 0, 0, time.UTC),
+		},
+	}
+	for _, tC := range testCases {
+		t.Run(tC.desc, func(t *testing.T) {
+			actual := getLastMonday(tC.t)
+			if actual.Day() != tC.expected.Day() {
+				t.Errorf("Days are not equal, expected %d, got %d", tC.expected.Day(), actual.Day())
+			}
+		})
+	}
+}
