@@ -30,6 +30,9 @@ TODO: Prepara usage documentation.
 
 TODO: Prepare development manual.
 
+1. Clone the repository with `git clone https://github.com/pgrunm/cw`
+2. Run `go get .`.
+3. Start developing.
 <!-- 
 - [Golangci-lint golden config](https://gist.github.com/maratori/47a4d00457a92aa426dbd48a18776322)
 - [Project layout](https://github.com/golang-standards/project-layout)
