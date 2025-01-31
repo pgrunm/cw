@@ -15,3 +15,19 @@ tasks:
     desc: Run linting
     cmds:
       - golangci-lint run 
+    sources:
+      - "*.go"
+
+  test:
+    desc: Runs tests on Go code.
+    cmds:
+      - go test ./..
+    sources:
+      - "*.go"
+
+  build:
+    desc: Compiles the Go code.
+    cmds:
+      - go build .
+    sources:
+      - "*.go"
