@@ -1,5 +1,7 @@
 # cw
 
+[![Go Report Card](https://goreportcard.com/badge/github.com/pgrunm/cw)](https://goreportcard.com/report/github.com/pgrunm/cw)
+
 Aren't you also annoyed by people, who say `XYZ will take place in calendar week XX`? cw comes to solve this issue! It is a commandline tool for finding out the calendar week of a date. It's completely written in Go.
 
 <!-- Howto write a good readme, see
