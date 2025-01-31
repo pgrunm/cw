@@ -1,6 +1,6 @@
 # https://taskfile.dev
 
-version: '3'
+version: "3"
 
 vars:
   GREETING: Hello, World!
@@ -8,20 +8,34 @@ vars:
 tasks:
   default:
     cmds:
-      - echo "{{.GREETING}}"
+      - cmd: dev
     silent: true
 
   lint:
     desc: Run linting
     cmds:
-      - golangci-lint run 
+      - golangci-lint run
     sources:
       - "*.go"
 
   test:
     desc: Runs tests on Go code.
     cmds:
-      - go test ./..
+      - go test .
+    sources:
+      - "*.go"
+
+  dev:
+    desc: Quick alias to run all dev related tasks.
+    cmds:
+      - task: lint
+      - task: lint
+      - task: run
+
+  run:
+    desc: Runs the Go code.
+    cmds:
+      - go run .
     sources:
       - "*.go"
 
