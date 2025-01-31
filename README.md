@@ -36,4 +36,5 @@ TODO: Prepare development manual.
 <!-- 
 - [Golangci-lint golden config](https://gist.github.com/maratori/47a4d00457a92aa426dbd48a18776322)
 - [Project layout](https://github.com/golang-standards/project-layout)
+- [OpenSSF Score Card](https://github.com/marketplace/actions/ossf-scorecard-action)
 -->
