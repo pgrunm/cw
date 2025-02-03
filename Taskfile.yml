@@ -28,7 +28,7 @@ tasks:
   dev:
     desc: Quick alias to run all dev related tasks.
     cmds:
-      - task: lint
+      - task: test
       - task: lint
       - task: run
 
