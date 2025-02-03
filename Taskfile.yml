@@ -35,9 +35,7 @@ tasks:
   run:
     desc: Runs the Go code.
     cmds:
-      - go run .
-    sources:
-      - "*.go"
+      - go run . {{.CLI_ARGS}}
 
   build:
     desc: Compiles the Go code.
