@@ -29,7 +29,8 @@ func main() {
 			currentTime := time.Now()
 			year, week := getCalendarWeek(currentTime)
 			if summary {
-				formattedWeek = fmt.Sprintf("It's currently calendar week %d in %d.", week, year)
+				monday := getLastMonday(currentTime)
+				formattedWeek = fmt.Sprintf("It's currently calendar week %d in %d, which started on %s and will finish on %s.", week, year, monday.Format(time.DateOnly), monday.AddDate(0, 0, 7).Format(time.DateOnly))
 			} else {
 				formattedWeek = fmt.Sprintf("%d", week)
 			}
