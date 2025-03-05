@@ -8,7 +8,7 @@ vars:
 tasks:
   default:
     cmds:
-      - cmd: dev
+      - task: dev
     silent: true
 
   lint:
