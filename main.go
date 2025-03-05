@@ -12,6 +12,9 @@ import (
 func main() {
 	// summary contains a boolean, whether to output a short summary.
 	var summary bool
+	// output contains the desired output format.
+	var output string
+
 	app := &cli.App{
 		Name:  "cw",
 		Usage: "Find the appropriate calendar week of a given date.",
@@ -22,6 +25,13 @@ func main() {
 				Value:       false,
 				Usage:       "Print out the calendar week in a short summary.",
 				Destination: &summary,
+			},
+
+			&cli.StringFlag{
+				Name:        "output",
+				Aliases:     []string{"o"},
+				Usage:       "Prints the requested calendar week as JSON or YAML.",
+				Destination: &output,
 			},
 		},
 		Action: func(cCtx *cli.Context) error {
