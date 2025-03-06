@@ -45,13 +45,18 @@ func main() {
 		Action: func(cCtx *cli.Context) error {
 			var formattedWeek string
 			var currentTime time.Time
+
+			// Parse any entered calendar week as flag from commandline
 			submittedDate := cCtx.Args().First()
 			if submittedDate != "" {
 				// Parse the submitted calendar week from string to int
 				week, err := strconv.Atoi(submittedDate)
 				if err != nil {
-					return fmt.Errorf("Failed to parse the submitted calendar week: %s", err)
+					return fmt.Errorf(
+						"Failed to parse the submitted calendar week %s, please enter an integer value. Error: %s",
+						submittedDate, err)
 				}
+				summary = true
 				currentTime = time.Date(time.Now().Year(), 1, 1, 0, 0, 0, 0, time.Local).AddDate(0, 0, (week-1)*7)
 			} else {
 				currentTime = time.Now()
