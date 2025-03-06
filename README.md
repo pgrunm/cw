@@ -16,6 +16,7 @@ https://github.com/mr-karan/doggo
 
 - [x] Get the current calendar week without specifying any arguments.
 - [ ] Get the calendar week of a date.
+- [ ] When entering a week, get start and end date.
 - [ ] Print a list of all calendar weeks of a given year as a table
 - [ ] Print the start and end date if you enter a year and calendar week
 - [ ] Support for different output formats like JSON, table (maybe more to come)
