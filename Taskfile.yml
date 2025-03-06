@@ -21,7 +21,7 @@ tasks:
   test:
     desc: Runs tests on Go code.
     cmds:
-      - go test ./...
+      - go test ./... -cover
     sources:
       - "*.go"
 
