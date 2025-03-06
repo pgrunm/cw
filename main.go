@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
 	"os"
@@ -44,12 +45,35 @@ func main() {
 			var formattedWeek string
 			currentTime := time.Now()
 			year, week := getCalendarWeek(currentTime)
-			if summary {
-				monday := getLastMonday(currentTime)
-				formattedWeek = fmt.Sprintf("It's currently calendar week %d in %d, which started on %s and will finish on %s.",
-					week, year, monday.Format(time.DateOnly), monday.AddDate(0, 0, 7).Format(time.DateOnly))
-			} else {
-				formattedWeek = fmt.Sprintf("%d", week)
+			monday := getLastMonday(currentTime)
+			weekData := map[string]interface{}{
+				"year":  year,
+				"week":  week,
+				"start": monday.Format(time.DateOnly),
+				"end":   monday.AddDate(0, 0, 7).Format(time.DateOnly),
+			}
+
+			// If not summary is required, remove the data from the map.
+			if !summary {
+				delete(weekData, "year")
+				delete(weekData, "start")
+				delete(weekData, "end")
+			}
+
+			switch output {
+			case "json":
+				jsonData, err := json.Marshal(weekData)
+				if err != nil {
+					return fmt.Errorf("failed to marshal JSON: %v", err)
+				}
+				formattedWeek = string(jsonData)
+			default:
+				if summary {
+					formattedWeek = fmt.Sprintf("It's currently calendar week %d in %d, which started on %s and will finish on %s.",
+						week, year, monday.Format(time.DateOnly), monday.AddDate(0, 0, 7).Format(time.DateOnly))
+				} else {
+					formattedWeek = fmt.Sprintf("%d", week)
+				}
 			}
 			// Print the current calendar week
 			fmt.Println(formattedWeek)
