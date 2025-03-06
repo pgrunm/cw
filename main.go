@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"strconv"
 	"time"
 
 	"github.com/urfave/cli/v2"
@@ -42,7 +43,19 @@ func main() {
 		},
 		Action: func(cCtx *cli.Context) error {
 			var formattedWeek string
-			currentTime := time.Now()
+			var currentTime time.Time
+			submittedDate := cCtx.Args().First()
+			if submittedDate != "" {
+				// Parse the submitted calendar week from string to int
+				week, err := strconv.Atoi(submittedDate)
+				if err != nil {
+					return fmt.Errorf("Failed to parse the submitted calendar week: %s", err)
+				}
+				currentTime = time.Date(time.Now().Year(), 1, 1, 0, 0, 0, 0, time.Local).AddDate(0, 0, (week-1)*7)
+			} else {
+				currentTime = time.Now()
+			}
+
 			year, week := getCalendarWeek(currentTime)
 			if summary {
 				monday := getLastMonday(currentTime)
