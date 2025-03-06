@@ -28,9 +28,15 @@ func main() {
 			},
 
 			&cli.StringFlag{
-				Name:        "output",
-				Aliases:     []string{"o"},
-				Usage:       "Prints the requested calendar week as JSON or YAML.",
+				Name:    "output",
+				Aliases: []string{"o"},
+				Usage:   "Prints the requested calendar week as JSON or YAML.",
+				Action: func(cCtx *cli.Context, s string) error {
+					if s != "json" && s != "yaml" {
+						return fmt.Errorf("Output format must be either 'json' or 'yaml', got '%s'.", s)
+					}
+					return nil
+				},
 				Destination: &output,
 			},
 		},
