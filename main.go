@@ -12,10 +12,8 @@ import (
 )
 
 func main() {
-	// summary contains a boolean, whether to output a short summary.
-	var summary bool
-	// output contains the desired output format.
-	var output string
+	// Define the flags for the CLI application
+	params := calendarParams{}
 
 	app := &cli.App{
 		Name:  "cw",
@@ -26,7 +24,7 @@ func main() {
 				Aliases:     []string{"s"},
 				Value:       false,
 				Usage:       "Print out the calendar week in a short summary.",
-				Destination: &summary,
+				Destination: &params.summary,
 			},
 
 			&cli.StringFlag{
@@ -39,7 +37,7 @@ func main() {
 					}
 					return nil
 				},
-				Destination: &output,
+				Destination: &params.output,
 			},
 		},
 		Action: func(cCtx *cli.Context) error {
@@ -56,7 +54,7 @@ func main() {
 						"Failed to parse the submitted calendar week %s, please enter an integer value. Error: %s",
 						submittedDate, err)
 				}
-				summary = true
+				params.summary = true
 				currentTime = time.Date(time.Now().Year(), 1, 1, 0, 0, 0, 0, time.Local).AddDate(0, 0, (week-1)*7)
 			} else {
 				currentTime = time.Now()
@@ -72,13 +70,13 @@ func main() {
 			}
 
 			// If not summary is required, remove the data from the map.
-			if !summary {
+			if !params.summary {
 				delete(weekData, "year")
 				delete(weekData, "start")
 				delete(weekData, "end")
 			}
 
-			switch output {
+			switch params.output {
 			case "json":
 				jsonData, err := json.Marshal(weekData)
 				if err != nil {
@@ -86,7 +84,7 @@ func main() {
 				}
 				formattedWeek = string(jsonData)
 			default:
-				if summary {
+				if params.summary {
 					formattedWeek = fmt.Sprintf("It's currently calendar week %d in %d, which started on %s and will finish on %s.",
 						week, year, monday.Format(time.DateOnly), monday.AddDate(0, 0, 7).Format(time.DateOnly))
 				} else {
