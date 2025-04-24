@@ -30,7 +30,7 @@ func main() {
 				Usage:   "Prints the requested calendar week as JSON.",
 				Action: func(cCtx *cli.Context, s string) error {
 					if s != "json" && s != "yaml" {
-						return fmt.Errorf("Output format must be 'json', got '%s'.", s)
+						return fmt.Errorf("output format must be 'json', got '%s'", s)
 					}
 					return nil
 				},
