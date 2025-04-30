@@ -60,7 +60,7 @@ func getWeekOutput(params calendarParams, currentTime time.Time) (formattedWeek 
 		if jsonErr != nil {
 			return "", fmt.Errorf("failed to marshal JSON: %v", err)
 		}
-		formattedWeek = string(jsonData)
+		formattedWeek = fmt.Sprintf("%s\n", string(jsonData))
 	default:
 		if params.summary {
 			formattedWeek = fmt.Sprintf("It's currently calendar week %d in %d, which started on %s and will finish on %s.\n",
