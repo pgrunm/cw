@@ -23,9 +23,37 @@ func getLastMonday(t time.Time) time.Time {
 	return t.AddDate(0, 0, (-int(t.Weekday()) + 1))
 }
 
+// parseRequestedDate parses the submitted date string and returns the corresponding time.Time.
+// This can be either a calenderweek e.g. `20`, a year with a calendarweek e.g. `24/2023`
+// or an empty string or a date in the format `YYYY-MM-DD`.
 func parseRequestedDate(submittedDate string) (time.Time, error) {
 	if submittedDate == "" {
 		return time.Now(), nil
+	}
+
+	// Check if the submitted date is in the format YYYY-MM-DD
+	if parsedDate, err := time.Parse("2006-01-02", submittedDate); err == nil {
+		return parsedDate, nil
+	}
+
+	// Check if the submitted date is in the format week/year (e.g., 24/2023)
+	if parts := len(submittedDate); parts == 7 && submittedDate[2] == '/' {
+		week, err := strconv.Atoi(submittedDate[:2])
+		if err != nil {
+			return time.Time{}, err
+		}
+		year, err := strconv.Atoi(submittedDate[3:])
+		if err != nil {
+			return time.Time{}, err
+		}
+		// Calculate the first day of the given week/year
+		firstDay := time.Date(year, 1, 1, 0, 0, 0, 0, time.Local)
+		isoYear, isoWeek := firstDay.ISOWeek()
+		for isoYear < year || isoWeek < week {
+			firstDay = firstDay.AddDate(0, 0, 1)
+			isoYear, isoWeek = firstDay.ISOWeek()
+		}
+		return firstDay, nil
 	}
 
 	// Parse the submitted calendar week from string to int
@@ -34,7 +62,15 @@ func parseRequestedDate(submittedDate string) (time.Time, error) {
 		return time.Time{}, err
 	}
 
-	return time.Date(time.Now().Year(), 1, 1, 0, 0, 0, 0, time.Local).AddDate(0, 0, (week-1)*7), nil
+	// Calculate the first day of the given week in the current year
+	currentYear := time.Now().Year()
+	firstDay := time.Date(currentYear, 1, 1, 0, 0, 0, 0, time.Local)
+	isoYear, isoWeek := firstDay.ISOWeek()
+	for isoYear < currentYear || isoWeek < week {
+		firstDay = firstDay.AddDate(0, 0, 1)
+		isoYear, isoWeek = firstDay.ISOWeek()
+	}
+	return firstDay, nil
 }
 
 func getWeekOutput(params calendarParams, currentTime time.Time) (formattedWeek string, err error) {
@@ -65,13 +101,14 @@ func getWeekOutput(params calendarParams, currentTime time.Time) (formattedWeek 
 		if params.summary {
 			_, actualWeek := time.Now().ISOWeek()
 			// Check if the current week is the same as the requested week. If not choose the appropriate time for output.
-			if week == actualWeek {
+			switch {
+			case week == actualWeek:
 				formattedWeek = fmt.Sprintf("It's currently calendar week %d in %d, which started on %s and will finish on %s.\n",
 					week, year, monday.Format(time.DateOnly), monday.AddDate(0, 0, 7).Format(time.DateOnly))
-			} else if week > actualWeek {
+			case week > actualWeek:
 				formattedWeek = fmt.Sprintf("Calendar week %d in %d will start on %s and finish on %s.\n",
 					week, year, monday.Format(time.DateOnly), monday.AddDate(0, 0, 7).Format(time.DateOnly))
-			} else {
+			case week < actualWeek:
 				formattedWeek = fmt.Sprintf("Calendar week %d in %d started on %s and finished on %s.\n",
 					week, year, monday.Format(time.DateOnly), monday.AddDate(0, 0, 7).Format(time.DateOnly))
 			}
