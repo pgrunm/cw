@@ -89,3 +89,70 @@ func TestWeekOutput(t *testing.T) {
 		})
 	}
 }
+func TestParseRequestedDate(t *testing.T) {
+	testCases := []struct {
+		desc          string
+		input         string
+		expectedYear  int
+		expectedMonth time.Month
+		expectedDay   int
+		expectError   bool
+	}{
+		{
+			desc:          "Parse empty string (current date)",
+			input:         "",
+			expectedYear:  time.Now().Year(),
+			expectedMonth: time.Now().Month(),
+			expectedDay:   time.Now().Day(),
+			expectError:   false,
+		},
+		{
+			desc:          "Parse calendar week only (week 25 of current year)",
+			input:         "25",
+			expectedYear:  2025,
+			expectedMonth: time.June,
+			expectedDay:   16, // Assuming week 25 starts on June 17th
+			expectError:   false,
+		},
+		{
+			desc:          "Parse year with calendar week (week 25 of 2024)",
+			input:         "25/2024",
+			expectedYear:  2024,
+			expectedMonth: time.June,
+			expectedDay:   17, // Assuming week 25 starts on June 17th
+			expectError:   false,
+		},
+		{
+			desc:          "Parse specific date (2025-01-01)",
+			input:         "2025-01-01",
+			expectedYear:  2025,
+			expectedMonth: time.January,
+			expectedDay:   1,
+			expectError:   false,
+		},
+		{
+			desc:        "Parse invalid input",
+			input:       "invalid",
+			expectError: true,
+		},
+	}
+	for _, tC := range testCases {
+		t.Run(tC.desc, func(t *testing.T) {
+			actual, err := parseRequestedDate(tC.input)
+			if tC.expectError {
+				if err == nil {
+					t.Errorf("Expected an error but got none")
+				}
+			} else {
+				if err != nil {
+					t.Errorf("Did not expect an error but got: %v", err)
+				}
+				if actual.Year() != tC.expectedYear || actual.Month() != tC.expectedMonth || actual.Day() != tC.expectedDay {
+					t.Errorf("Expected date %d-%02d-%02d, got %d-%02d-%02d",
+						tC.expectedYear, tC.expectedMonth, tC.expectedDay,
+						actual.Year(), actual.Month(), actual.Day())
+				}
+			}
+		})
+	}
+}
