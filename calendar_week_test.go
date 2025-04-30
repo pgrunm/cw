@@ -68,7 +68,7 @@ func TestWeekOutput(t *testing.T) {
 				summary: true,
 			},
 			time:     time.Date(2025, 1, 27, 8, 30, 0, 0, time.UTC),
-			expected: "It's currently calendar week 5 in 2025, which started on 2025-01-27 and will finish on 2025-02-03.\n",
+			expected: "Calendar week 5 in 2025 started on 2025-01-27 and finished on 2025-02-03.\n",
 		},
 		{
 			desc: "Check week output wo summary",
@@ -84,7 +84,7 @@ func TestWeekOutput(t *testing.T) {
 		t.Run(tC.desc, func(t *testing.T) {
 			actual, _ := getWeekOutput(tC.params, tC.time)
 			if actual != tC.expected {
-				t.Errorf("Expected %s, got %s", tC.expected, actual)
+				t.Errorf("Expected: %s, got %s", tC.expected, actual)
 			}
 		})
 	}
