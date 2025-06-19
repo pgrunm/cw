@@ -43,3 +43,29 @@ tasks:
       - go build .
     sources:
       - "*.go"
+
+  test-release:
+    desc: Runs Goreleaser in snapshot mode.
+    aliases:
+      - tr
+    cmds:
+      - goreleaser check
+      - goreleaser healthcheck
+      - goreleaser release --snapshot --clean
+    sources:
+      - "*.go"
+
+  release:
+    desc: Runs Goreleaser in release mode.
+    vars:
+      VERSION: "v1.0.0" 
+    aliases:
+      - r
+    cmds:
+      - goreleaser check
+      - goreleaser healthcheck
+      - git tag -a {{.VERSION}} -m "Release {{.VERSION}}"
+      - git push origin {{.VERSION}}
+      - goreleaser release --clean
+    sources:
+      - "*.go"
