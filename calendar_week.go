@@ -12,6 +12,8 @@ type calendarParams struct {
 	summary bool
 	// output contains the desired output format.
 	output string
+	// table contains a boolean, whether to output the calendar week in table format.
+	table bool
 }
 
 func getCalendarWeek(t time.Time) (year int, week int) {

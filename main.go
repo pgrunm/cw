@@ -24,6 +24,14 @@ func main() {
 				Destination: &params.summary,
 			},
 
+			&cli.BoolFlag{
+				Name:        "table",
+				Aliases:     []string{"t"},
+				Value:       false,
+				Usage:       "Print out the calendar weeks in a table format.",
+				Destination: &params.table,
+			},
+
 			&cli.StringFlag{
 				Name:    "output",
 				Aliases: []string{"o"},
