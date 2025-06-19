@@ -29,3 +29,4 @@ go.work.sum
 .task/
 # Added by goreleaser init:
 dist/
+gh_token.txt
