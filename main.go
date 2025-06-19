@@ -57,6 +57,15 @@ func main() {
 			if err != nil {
 				return fmt.Errorf("failed to get week output: %v", err)
 			}
+
+			if params.table {
+				weeks, err := getAllWeeksOfYear(currentTime)
+				if err != nil {
+					return fmt.Errorf("failed to get all weeks: %v", err)
+				}
+				printWeeksTable(weeks, currentTime)
+				return nil
+			}
 			print(formattedWeek)
 			return nil
 		},

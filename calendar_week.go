@@ -120,3 +120,54 @@ func getWeekOutput(params calendarParams, currentTime time.Time) (formattedWeek 
 	}
 	return formattedWeek, nil
 }
+
+func getAllWeeksOfYear(currentTime time.Time) (any, any) {
+	year := currentTime.Year()
+	firstDay := time.Date(year, 1, 1, 0, 0, 0, 0, currentTime.Location())
+	for firstDay.Weekday() != time.Monday {
+		firstDay = firstDay.AddDate(0, 0, 1)
+	}
+
+	var weeks [][]time.Time
+	week := []time.Time{}
+	day := firstDay
+
+	for day.Year() == year {
+		week = append(week, day)
+		if len(week) == 7 {
+			weeks = append(weeks, week)
+			week = []time.Time{}
+		}
+		day = day.AddDate(0, 0, 1)
+	}
+	if len(week) > 0 {
+		weeks = append(weeks, week)
+	}
+
+	return weeks, nil
+}
+
+// printWeeksTable prints the weeks in a table format.
+func printWeeksTable(weeks any, currentTime time.Time) {
+	weeksSlice, ok := weeks.([][]time.Time)
+	if !ok {
+		fmt.Println("Invalid weeks data")
+		return
+	}
+	_, currentISOWeek := currentTime.ISOWeek()
+	fmt.Printf("Calendar Weeks for %d:\n", currentTime.Year())
+	fmt.Println("+---------+-------+------------+------------+")
+	fmt.Println("| Current | Week  |   Start    |    End     |")
+	fmt.Println("+---------+-------+------------+------------+")
+	for i, week := range weeksSlice {
+		weekNum := i + 1
+		start := week[0].Format("2006-01-02")
+		end := week[len(week)-1].Format("2006-01-02")
+		star := " "
+		if weekNum == currentISOWeek {
+			star = "*"
+		}
+		fmt.Printf("|    %s    | %2d    | %s | %s |\n", star, weekNum, start, end)
+	}
+	fmt.Println("+---------+-------+------------+------------+")
+}
