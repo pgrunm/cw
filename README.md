@@ -29,7 +29,24 @@ TODO: Prepare installation manual.
 
 ## Usage
 
-TODO: Prepara usage documentation.
+cw supports a variety of different commandline parameters. You can see them by running `cw -h` or below:
+
+```txt
+NAME:
+   cw - Find the appropriate calendar week of a given date.
+
+USAGE:
+   cw [global options] command [command options]
+
+COMMANDS:
+   help, h  Shows a list of commands or help for one command
+
+GLOBAL OPTIONS:
+   --summary, -s             Print out the calendar week in a short summary. (default: false)
+   --table, -t               Print out the calendar weeks in a table format. (default: false)
+   --output value, -o value  Prints the requested calendar week as JSON.
+   --help, -h                show help
+```
 
 ## Development
 
