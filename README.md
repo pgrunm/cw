@@ -1,6 +1,7 @@
 # cw
 
 [![Go Report Card](https://goreportcard.com/badge/github.com/pgrunm/cw)](https://goreportcard.com/report/github.com/pgrunm/cw)
+[![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/pgrunm/cw/badge)](https://scorecard.dev/viewer/?uri=github.com/pgrunm/cw)
 
 Aren't you also annoyed by people, who say `XYZ will take place in calendar week XX`? cw comes to solve this issue! It is a commandline tool for finding out the calendar week of a date. It's completely written in Go.
 
@@ -32,7 +33,7 @@ TODO: Prepara usage documentation.
 
 ## Development
 
-TODO: Prepare development manual.
+Development takes place in main branch, so it can be ahead of other branches. In case you'd like to access a specific version, please use the according tag or download any desired release.
 
 1. Clone the repository with `git clone https://github.com/pgrunm/cw`
 2. Run `go get .`.
