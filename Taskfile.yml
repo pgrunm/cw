@@ -58,7 +58,7 @@ tasks:
   release:
     desc: Runs Goreleaser in release mode.
     vars:
-      VERSION: "v1.0.0" 
+      VERSION: "v1.0.1" 
     env:
       GITHUB_TOKEN: 
         sh: cat gh_token.txt
