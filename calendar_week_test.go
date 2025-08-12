@@ -12,6 +12,18 @@ func TestWeekFunction(t *testing.T) {
 		year, week int
 	}{
 		{
+			desc: "Check first week of 2025",
+			t:    time.Date(2025, 01, 01, 0, 0, 0, 0, time.UTC),
+			week: 1,
+			year: 2025,
+		},
+		{
+			desc: "Check last week of 2025",
+			t:    time.Date(2025, 12, 26, 0, 0, 0, 0, time.UTC),
+			week: 52,
+			year: 2025,
+		},
+		{
 			desc: "Check week for 24.12.2024",
 			t:    time.Date(2024, 12, 24, 0, 0, 0, 0, time.UTC),
 			week: 52,
