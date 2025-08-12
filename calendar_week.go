@@ -128,16 +128,21 @@ func getWeekOutput(params calendarParams, currentTime time.Time) (formattedWeek 
 
 func getAllWeeksOfYear(currentTime time.Time) (any, any) {
 	year := currentTime.Year()
-	firstDay := time.Date(year, 1, 1, 0, 0, 0, 0, currentTime.Location())
+	// Find the first Monday that belongs to ISO week 1 of the given year
+	firstDay := time.Date(year, 1, 4, 0, 0, 0, 0, currentTime.Location()) // Jan 4th is always in week 1
 	for firstDay.Weekday() != time.Monday {
-		firstDay = firstDay.AddDate(0, 0, 1)
+		firstDay = firstDay.AddDate(0, 0, -1)
 	}
 
 	var weeks [][]time.Time
 	week := []time.Time{}
 	day := firstDay
 
-	for day.Year() == year {
+	for {
+		isoYear, _ := day.ISOWeek()
+		if isoYear != year {
+			break
+		}
 		week = append(week, day)
 		if len(week) == 7 {
 			weeks = append(weeks, week)
@@ -160,7 +165,6 @@ func printWeeksTable(weeks any, currentTime time.Time) {
 		return
 	}
 	_, currentISOWeek := currentTime.ISOWeek()
-	fmt.Printf("Calendar Weeks for %d:\n", currentTime.Year())
 	fmt.Println("+---------+-------+------------+------------+")
 	fmt.Println("| Current | Week  |   Start    |    End     |")
 	fmt.Println("+---------+-------+------------+------------+")
