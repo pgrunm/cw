@@ -127,6 +127,14 @@ func TestParseRequestedDate(t *testing.T) {
 			expectError:   false,
 		},
 		{
+			desc:          "Parse year with calendar week (week 1 of 2024)",
+			input:         "1/2024",
+			expectedYear:  2024,
+			expectedMonth: time.January,
+			expectedDay:   1, // Assuming week 1 starts on January 1st
+			expectError:   false,
+		},
+		{
 			desc:          "Parse year with calendar week (week 25 of 2024)",
 			input:         "25/2024",
 			expectedYear:  2024,
