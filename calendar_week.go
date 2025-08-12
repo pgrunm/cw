@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"strconv"
+	"strings"
 	"time"
 )
 
@@ -39,12 +40,16 @@ func parseRequestedDate(submittedDate string) (time.Time, error) {
 	}
 
 	// Check if the submitted date is in the format week/year (e.g., 24/2023)
-	if parts := len(submittedDate); parts == 7 && submittedDate[2] == '/' {
-		week, err := strconv.Atoi(submittedDate[:2])
+	if strings.Contains(submittedDate, "/") {
+		parts := strings.Split(submittedDate, "/")
+		if len(parts) != 2 {
+			return time.Time{}, fmt.Errorf("invalid week/year format")
+		}
+		week, err := strconv.Atoi(parts[0])
 		if err != nil {
 			return time.Time{}, err
 		}
-		year, err := strconv.Atoi(submittedDate[3:])
+		year, err := strconv.Atoi(parts[1])
 		if err != nil {
 			return time.Time{}, err
 		}
