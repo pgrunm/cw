@@ -25,7 +25,13 @@ https://github.com/mr-karan/doggo
 
 ## Installation
 
-TODO: Prepare installation manual.
+### Install as Go binary
+
+Simply run `go install github.com/pgrunm/cw@latest` to install the program directly.
+
+### Download binary package
+
+You can also download a compiled package from the [releases page](https://github.com/pgrunm/cw/releases).
 
 ## Usage
 
